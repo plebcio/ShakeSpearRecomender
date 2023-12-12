@@ -15,7 +15,7 @@ declare Fact
    a: String
 end
 
- 
+// QUESTION RULE 
 rule "WhatToDo"
     when
     	
@@ -157,6 +157,102 @@ rule "EndTwoGents"
 		w.setNazwa("The Two Gentlemen of Verona");
 		insert(w);
 end
+
+
+// QUESTION RULE
+rule "TwinsNOTCrossdressed"
+    when
+		Fact(q == "CrossDressing" && a == "no") 	
+    then    	
+        String[] short_names = {"no", "yes"};
+    	String[] answers = {"How contrived", "Sounds like fun!"};
+        int res = askQuestion(inter,
+        	"How about twins ?", answers);
+        Fact f = new Fact();
+        f.setQ("TwinsNOTCrossdressed");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndComedyOfErrors"
+    when
+		Fact(q == "TwinsNOTCrossdressed" && a == "yes")
+    then    	
+		System.out.println("The Comedy of Errors");
+		Wynik w = new Wynik();
+		w.setNazwa("The Comedy of Errors");
+		insert(w);
+end
+
+
+// QUESTION RULE
+rule "iSMagic"
+    when
+		Fact(q == "TwinsNOTCrossdressed" && a == "no") 	
+    then    	
+        String[] short_names = {"no", "yes"};
+    	String[] answers = {"There's no such thing.", "Oooo, I love magic!"};
+        int res = askQuestion(inter,
+        	"Picky picky. How about magic ", answers);
+        Fact f = new Fact();
+        f.setQ("iSMagic");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+
+rule "KindOfMagic"
+    when
+		Fact(q == "iSMagic" && a == "yes") 	
+    then    	
+        String[] short_names = {"illusion", "fairies", "miracles"};
+    	String[] answers = {"Illusion|", "Fairies|", "Miracles!"};
+        int res = askQuestion(inter,
+        	"What kind of magic do you like", answers);
+        Fact f = new Fact();
+        f.setQ("KindOfMagic");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndTempest"
+    when
+		Fact(q == "KindOfMagic" && a == "illusion")
+    then    	
+		System.out.println("The Tempest");
+		Wynik w = new Wynik();
+		w.setNazwa("The Tempest");
+		insert(w);
+end
+
+// END RULE
+rule "EndMidsummerDream"
+    when
+		Fact(q == "KindOfMagic" && a == "fairies")
+    then    	
+		System.out.println("A midsummer Night's Dream");
+		Wynik w = new Wynik();
+		w.setNazwa("A midsummer Night's Dream");
+		insert(w);
+end
+
+// END RULE
+rule "EndWintersTale"
+    when
+		Fact(q == "KindOfMagic" && a == "miracles")
+    then    	
+		System.out.println("The Winter's Tale");
+		Wynik w = new Wynik();
+		w.setNazwa("The Winter's Tale");
+		insert(w);
+end
+
+
+
+
+
 
 
 // GUI INTERFACE FUNCTIONS
