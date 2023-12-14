@@ -1,5 +1,6 @@
 package com.shakespeare;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -24,11 +25,23 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
 public class ShakespeareFrame extends JFrame implements ActionListener {
+	
+	class DroolsThread extends Thread {
+		KieSession kSession;
+		public DroolsThread(KieSession kSession) {
+			this.kSession = kSession;
+		}
+		public void run() {
+			kSession.fireAllRules();
+		}
+	}
+	
 	private static KieServices ks;
 	private static KieContainer kContainer;
 	private static KieSession kSession;
-	
 	private int optionNum = -1;
+	
+	DroolsThread thread;
 	
 	private JPanel startPanel = new JPanel();
 	private JButton startButton = new JButton("Begin");
@@ -36,16 +49,21 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 	
 	
 	private JRadioButton[] radioList = new JRadioButton[7];
+	
 	private JPanel mainPanel = new JPanel();
 	private JPanel textPanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	private JPanel nextPanel = new JPanel();
+	
 	private JLabel questionText = new JLabel();
-	private JLabel buttonText = new JLabel("Wybierz jedną opcję z poniższych:");	
+	private JLabel buttonText = new JLabel("Choose one option:");	
 	private ButtonGroup group = new ButtonGroup();
-	private JButton next = new JButton("Nastepne pytanie");
+	private JButton close = new JButton("Close");
+	private JButton next = new JButton("Next");
 	private Font fieldFont = new Font("Times New Roman", Font.BOLD, 25);
 	private Font radioFont = new Font("Times New Roman", Font.PLAIN, 15);
+	
+	private JLabel choice = new JLabel();
 	
 	public ShakespeareFrame() {
 		super("Shakespeare Play Chooser");
@@ -59,6 +77,7 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 	        	
 	        	ShakespeareInterface inter =  new ShakespeareInterface();
 	        	kSession.setGlobal("inter", inter);
+	        	thread = new DroolsThread(kSession);
 	        } 
 		 catch (Throwable t) {
 	            t.printStackTrace();
@@ -95,7 +114,6 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 		startPanel.add(startButton,c);
 		
 		add(startPanel);
-		
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -108,10 +126,13 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 		remove(startPanel);
 
 		textPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		buttonPanel.setLayout(new GridLayout(6,1,50,20));
+		buttonPanel.setLayout(new GridLayout(8,1,50,20));
 		nextPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		questionText.setFont(fieldFont);
 		questionText.setHorizontalAlignment(JTextField.CENTER);
+		choice.setFont(fieldFont);
+		choice.setHorizontalAlignment(JTextField.CENTER);
+		choice.setForeground(new Color(0,150,150));
 		textPanel.add(questionText);
 		buttonPanel.add(buttonText);
 		for(int i = 0; i<7; i++) {
@@ -120,6 +141,8 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 			group.add(radioList[i]);
 			buttonPanel.add(radioList[i]);
 		}
+		close.addActionListener(this);
+		next.addActionListener(this);
 		nextPanel.add(next);
 		
 		mainPanel.setLayout(new GridBagLayout());
@@ -156,13 +179,30 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(startButton)) {
 			start();
-			kSession.fireAllRules();
+			thread.start();
 		}
-		
+		if(e.getSource().equals(next)) {
+			int i;
+			for(i = 0; i<7; i++) {
+				if(radioList[i].isSelected()) {
+					break;
+				}
+			}
+			group.clearSelection();
+			if(i<7) {
+				optionNum = i;
+			}
+			
+		}
+		if(e.getSource().equals(close)) {
+			System.exit(0);
+		}
 	}
 	
 	public void setQuestion(String question) {
 		questionText.setText(question);
+		pack();
+		setLocationRelativeTo(null);
 	}
 	
 	public int getOptionNum() {
@@ -173,7 +213,37 @@ public class ShakespeareFrame extends JFrame implements ActionListener {
 		optionNum = -1;
 	}
 	
-	public void setOptions(String[] String) {
+	public void setOptions(String[] opts) {
+		int i = 0;
+		for(String o : opts) {
+			radioList[i].setText(o);
+			radioList[i].setVisible(true);
+			i++;
+		}
+		while(i<7) {
+			radioList[i].setVisible(false);
+			i++;
+		}
+		pack();
+		setLocationRelativeTo(null);
+	}
+	
+	public void setFinal(String nazwa) {
+		questionText.setText("You should watch ");
+		for(int i = 0; i<7; i++) {
+			buttonPanel.remove(radioList[i]);
+		}
+		buttonPanel.remove(buttonText);
+		remove(buttonPanel);
+		next.setVisible(false);
+		nextPanel.remove(next);
+		nextPanel.add(close);
+		close.setVisible(true);
+		choice.setText("\'"+nazwa+"\'");
+		textPanel.add(choice);
+		choice.setVisible(true);
+		pack();
+		setLocationRelativeTo(null);
 		
 	}
 	

@@ -20,8 +20,8 @@ rule "WhatToDo"
     when
     	
     then    	
-        String[] short_names = {"sleep", "laught", "cry", "swords", "all", "pirates", "chauncery"};
-    	String[] answers = {"take a nap", "laught", "cry", "Watch guys run around with swords", "all of the above", "I just want a nice story with ship...", "This is all a bit modern..." };
+        String[] short_names = {"sleep", "laugh", "cry", "swords", "all", "pirates", "chauncery"};
+    	String[] answers = {"Take a nap", "Laugh", "Cry", "Watch guys run around with swords", "All of the above", "I just want a nice story with ship...", "This is all a bit modern..." };
         int res = askQuestion(inter,
         	"What do you want to do?", answers);
         Fact f = new Fact();
@@ -35,15 +35,54 @@ rule "EndPirates"
     when
 		Fact(q == "WhatToDo" && a == "pirates") 	
     then    	
-		System.out.println("pierates!!!");
 		Wynik w = new Wynik();
 		w.setNazwa("Pericles, Prince of Tyre");
 		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndHenryVIII"
+    when
+		Fact(q == "WhatToDo" && a == "sleep") 	
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Henry VIII");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+	
+end
+
+// END RULE
+rule "EndKinsmen"
+    when
+		Fact(q == "WhatToDo" && a == "chauncery") 	
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("The Two Noble Kinsmen");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+	
+end
+
+// END RULE
+rule "EndCymbeline"
+    when
+		Fact(q == "WhatToDo" && a == "all") 	
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Cymbeline");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+	
 end
 
 rule "IsMurderCool"
     when
-		Fact(q == "WhatToDo" && a == "laught") 	
+		Fact(q == "WhatToDo" && a == "laugh") 	
     then    	
         String[] short_names = {"disturbing", "hilarious"};
     	String[] answers = {"disturbing?", "hilarious?"};
@@ -54,6 +93,18 @@ rule "IsMurderCool"
         f.setA( short_names[res] );
         insert( f );
 	
+end
+
+// END RULE
+rule "EndTitus"
+    when
+		Fact((q == "IsMurderCool" && a == "hilarious")||(q == "DeathTolls" && a == "high"))	
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Titus Andronicus");
+		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 rule "CrossDressing"
@@ -84,15 +135,17 @@ rule "TwinsCrossdressed"
         insert( f );
 end
 
+
 // END RULE
 rule "EndTwelthNight"
     when
 		Fact(q == "TwinsCrossdressed" && a == "yes") 	
     then    	
-		System.out.println("12th Night!!!");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("Twelfth Night");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 rule "Forest"
@@ -114,10 +167,11 @@ rule "EndMerchant"
     when
 		Fact(q == "Forest" && a == "no") 	
     then    	
-		System.out.println("The Merchent of Venice");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("The Merchent of Venice");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 rule "WhoInForest"
@@ -134,16 +188,16 @@ rule "WhoInForest"
         insert( f );
 end
 
-
 // END RULE
 rule "EndAsYou"
     when
 		Fact(q == "WhoInForest" && a == "shepards") 	
     then    	
-		System.out.println("As You Like It");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("As You Like It");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 
@@ -152,12 +206,12 @@ rule "EndTwoGents"
     when
 		Fact(q == "WhoInForest" && a == "bandits")
     then    	
-		System.out.println("The Two Gentlemen of Verona");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("The Two Gentlemen of Verona");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
-
 
 // QUESTION RULE
 rule "TwinsNOTCrossdressed"
@@ -179,10 +233,11 @@ rule "EndComedyOfErrors"
     when
 		Fact(q == "TwinsNOTCrossdressed" && a == "yes")
     then    	
-		System.out.println("The Comedy of Errors");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("The Comedy of Errors");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 
@@ -201,13 +256,12 @@ rule "iSMagic"
         insert( f );
 end
 
-
 rule "KindOfMagic"
     when
 		Fact(q == "iSMagic" && a == "yes") 	
     then    	
         String[] short_names = {"illusion", "fairies", "miracles"};
-    	String[] answers = {"Illusion|", "Fairies|", "Miracles!"};
+    	String[] answers = {"Illusion!", "Fairies!", "Miracles!"};
         int res = askQuestion(inter,
         	"What kind of magic do you like", answers);
         Fact f = new Fact();
@@ -221,10 +275,11 @@ rule "EndTempest"
     when
 		Fact(q == "KindOfMagic" && a == "illusion")
     then    	
-		System.out.println("The Tempest");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("The Tempest");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 // END RULE
@@ -232,10 +287,11 @@ rule "EndMidsummerDream"
     when
 		Fact(q == "KindOfMagic" && a == "fairies")
     then    	
-		System.out.println("A midsummer Night's Dream");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("A midsummer Night's Dream");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
 // END RULE
@@ -243,17 +299,490 @@ rule "EndWintersTale"
     when
 		Fact(q == "KindOfMagic" && a == "miracles")
     then    	
-		System.out.println("The Winter's Tale");
+		
 		Wynik w = new Wynik();
 		w.setNazwa("The Winter's Tale");
 		insert(w);
+		pushResult(inter,w.getNazwa());
 end
 
+rule "kindOfLovers"
+    when
+		Fact(q == "iSMagic" && a == "no") 	
+    then    	
+        String[] short_names = {"overeducated", "quarrelsome","reluctant","married"};
+    	String[] answers = {"Overeducated.", "Quarrelsome.","Reluctant.","Married."};
+        int res = askQuestion(inter,
+        	"Wow, you're a tough crowd. How do you like your lovers?", answers);
+        Fact f = new Fact();
+        f.setQ("kindOfLovers");
+        f.setA( short_names[res] );
+        insert( f );
+	
+end
 
+// END RULE
+rule "EndLLL"
+    when
+		Fact(q == "kindOfLovers" && a == "overeducated")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Love's Labour's Lost");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
 
+// END RULE
+rule "EndWindsor"
+    when
+		Fact(q == "kindOfLovers" && a == "married")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("The Merry Wives of Windsor");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
 
+rule "ViolentQuarrel"
+    when
+		Fact(q == "kindOfLovers" && a == "quarrelsome") 	
+    then    	
+        String[] short_names = {"no", "yes"};
+    	String[] answers = {"No, just argumentative.", "Bring it on!"};
+        int res = askQuestion(inter,
+        	"Violently quarrelsome?", answers);
+        Fact f = new Fact();
+        f.setQ("ViolentQuarrel");
+        f.setA( short_names[res] );
+        insert( f );
+	
+end
 
+// END RULE
+rule "EndMuchAdo"
+    when
+		Fact(q == "ViolentQuarrel" && a == "no")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Much Ado About Nothing");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
 
+// END RULE
+rule "EndTamingShrew"
+    when
+		Fact(q == "ViolentQuarrel" && a == "yes")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("The Taming of the Shrew");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "isNun"
+    when
+		Fact(q == "kindOfLovers" && a == "reluctant") 	
+    then    	
+        String[] short_names = {"no", "yes"};
+    	String[] answers = {"What? No! That's weird!", "...maybe?"};
+        int res = askQuestion(inter,
+        	"Is there a nun involved?", answers);
+        Fact f = new Fact();
+        f.setQ("isNun");
+        f.setA( short_names[res] );
+        insert( f );
+	
+end
+
+// END RULE
+rule "EndMFM"
+    when
+		Fact(q == "isNun" && a == "no")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Measure for Measure");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndEndsWell"
+    when
+		Fact(q == "isNun" && a == "yes")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("All's Well That Ends Well");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "RevengeOpinion"
+    when
+		Fact(q == "WhatToDo" && a == "cry") 	
+    then    	
+        String[] short_names = {"best", "pointless"};
+    	String[] answers = {"It's the best!", "It's pointless"};
+        int res = askQuestion(inter,
+        	"What's your opinion on revenge?", answers);
+        Fact f = new Fact();
+        f.setQ("RevengeOpinion");
+        f.setA( short_names[res] );
+        insert( f );
+	
+end
+
+rule "DeathTolls"
+    when
+		Fact(q == "RevengeOpinion" && a == "best") 	
+    then    	
+        String[] short_names = {"high", "moderate", "low"};
+    	String[] answers = {"High! Bring on the bloodbath!", "Moderate, with a side of angst.","Very low. I'm squeamish."};
+        int res = askQuestion(inter,
+        	"How do you like your death tolls?", answers);
+        Fact f = new Fact();
+        f.setQ("DeathTolls");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndHamlet"
+    when
+		Fact(q == "DeathTolls" && a == "moderate")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Hamlet");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndTimon"
+    when
+		Fact(q == "DeathTolls" && a == "low")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Timon of Athens");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "WhatsImportant"
+    when
+		Fact(q == "RevengeOpinion" && a == "pointless") 	
+    then    	
+        String[] short_names = {"love", "family", "power"};
+    	String[] answers = {"Love.", "Family.", "Power."};
+        int res = askQuestion(inter,
+        	"What is the most important to you?", answers);
+        Fact f = new Fact();
+        f.setQ("WhatsImportant");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+rule "TypeOfLove"
+    when
+		Fact(q == "WhatsImportant" && a == "love") 	
+    then    	
+        String[] short_names = {"stupidi", "stupidm", "jealous"};
+    	String[] answers = {"Stupid immature love", "Stupid mature love", "Jealous obsession"};
+        int res = askQuestion(inter,
+        	"What is the best type of love?", answers);
+        Fact f = new Fact();
+        f.setQ("TypeOfLove");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndRAJ"
+    when
+		Fact(q == "TypeOfLove" && a == "stupidi")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Romeo and Juliet");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndAAC"
+    when
+		Fact(q == "TypeOfLove" && a == "stupidm")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Antony and Cleopatra");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndOthello"
+    when
+		Fact(q == "TypeOfLove" && a == "jealous")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Othello");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "Parent"
+    when
+		Fact(q == "WhatsImportant" && a == "family") 	
+    then    	
+        String[] short_names = {"mum", "dad"};
+    	String[] answers = {"Mum.","Dad."};
+        int res = askQuestion(inter,
+        	"Pick a parent.", answers);
+        Fact f = new Fact();
+        f.setQ("Parent");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndCoriolanus"
+    when
+		Fact(q == "Parent" && a == "mum")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Coriolanus");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndKingLear"
+    when
+		Fact(q == "Parent" && a == "dad")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Kind Lear");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "BestWork"
+    when
+		Fact(q == "WhatsImportant" && a == "power") 	
+    then    	
+        String[] short_names = {"friends", "significant","noone"};
+    	String[] answers = {"Friends.","Significant other.","Everyone hates me."};
+        int res = askQuestion(inter,
+        	"Who do you work best with?", answers);
+        Fact f = new Fact();
+        f.setQ("BestWork");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndJulius"
+    when
+		Fact(q == "BestWork" && a == "friends")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Julius Caesar");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndMacbeth"
+    when
+		Fact(q == "BestWork" && a == "significant")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Macbeth");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndRichard"
+    when
+		Fact(q == "BestWork" && a == "noone")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Richard II");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "EnglishHistory"
+    when
+		Fact(q == "WhatToDo" && a == "swords") 	
+    then    	
+        String[] short_names = {"classics", "it is", "dunno"};
+    	String[] answers = {"Eh, I prefer the classics.", "It really is!","Um, I dunno..."};
+        int res = askQuestion(inter,
+        	"Isn't English history awesome???", answers);
+        Fact f = new Fact();
+        f.setQ("EnglishHistory");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndTAC"
+    when
+		Fact(q == "EnglishHistory" && a == "classics")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Troilus and Cressida");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "Denied:("
+    when
+		Fact(q == "EnglishHistory" && a == "dunno") 	
+    then    	
+        String[] short_names = {""};
+    	String[] answers = {""};
+        int res = askQuestion(inter,
+        	"No, it really is. Trust me.", answers);
+        Fact f = new Fact();
+        f.setQ("Denied:(");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+rule "Excom"
+    when
+		Fact((q == "EnglishHistory" && a == "it is")||q == "Denied:(") 	
+    then    	
+        String[] short_names = {"wow", "boring"};
+    	String[] answers = {"Wow! Is it ever!", "Boooring."};
+        int res = askQuestion(inter,
+        	"Is excommunication exciting?", answers);
+        Fact f = new Fact();
+        f.setQ("Excom");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndJohn"
+    when
+		Fact(q == "Excom" && a == "wow")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("King John");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "HowMuchTime"
+    when
+		Fact(q == "Excom" && a == "boring") 	
+    then    	
+        String[] short_names = {"fewhours", "allweek"};
+    	String[] answers = {"Just a few hours.", "I'm here all week!"};
+        int res = askQuestion(inter,
+        	"How much time do you have?", answers);
+        Fact f = new Fact();
+        f.setQ("HowMuchTime");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+rule "GoodOrBad"
+    when
+		Fact(q == "HowMuchTime" && a == "fewhours") 	
+    then    	
+        String[] short_names = {"good", "bad"};
+    	String[] answers = {"Good guys.", "Bad boys."};
+        int res = askQuestion(inter,
+        	"Do you like good guys or bad boys?", answers);
+        Fact f = new Fact();
+        f.setQ("GoodOrBad");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndHenryV"
+    when
+		Fact(q == "GoodOrBad" && a == "good")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Henry V");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndRichardIII"
+    when
+		Fact(q == "GoodOrBad" && a == "bad")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Richard III");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+rule "WhichPrefer"
+    when
+		Fact(q == "HowMuchTime" && a == "allweek") 	
+    then    	
+        String[] short_names = {"journeys", "battles"};
+    	String[] answers = {"Coming of age journeys.", "Just lots and lots of battles."};
+        int res = askQuestion(inter,
+        	"Do you like good guys or bad boys?", answers);
+        Fact f = new Fact();
+        f.setQ("WhichPrefer");
+        f.setA( short_names[res] );
+        insert( f );
+end
+
+// END RULE
+rule "EndHenryIV"
+    when
+		Fact(q == "WhichPrefer" && a == "journeys")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Henry IV, parts 1 & 2");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
+
+// END RULE
+rule "EndHenryVI"
+    when
+		Fact(q == "WhichPrefer" && a == "battles")
+    then    	
+		
+		Wynik w = new Wynik();
+		w.setNazwa("Henry VI, parts 1, 2 & 3");
+		insert(w);
+		pushResult(inter,w.getNazwa());
+end
 
 // GUI INTERFACE FUNCTIONS
 function int askQuestion(ShakespeareInterface inter, String question, String[] options) {
@@ -264,5 +793,9 @@ function int askQuestion(ShakespeareInterface inter, String question, String[] o
 		res = inter.getOpt();
 	}
 	return res;
+}
+
+function void pushResult(ShakespeareInterface inter, String nazwa) {
+	inter.showFinal(nazwa);
 }
 
