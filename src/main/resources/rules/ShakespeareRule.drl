@@ -21,7 +21,7 @@ rule "WhatToDo"
     	
     then    	
         String[] short_names = {"sleep", "laugh", "cry", "swords", "all", "pirates", "chauncery"};
-    	String[] answers = {"Take a nap", "Laugh", "Cry", "Watch guys run around with swords", "All of the above", "I just want a nice story with ship...", "This is all a bit modern..." };
+    	String[] answers = {"Take a nap", "Laugh", "Cry", "Watch guys run around with swords", "All of the above", "I just want a nice story with shipwrecks and pirates and prostitutes in it.", "This is all a bit modern for me. Do your have anything more Chaucer-y?" };
         int res = askQuestion(inter,
         	"What do you want to do?", answers);
         Fact f = new Fact();
